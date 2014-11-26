@@ -23,6 +23,14 @@ jdbcDriver <- JDBC(driverClass="org.postgresql.Driver", classPath="./postgresql-
 jdbcConnection <- dbConnect(jdbcDriver, "jdbc:postgresql://localhost:5432/events_soccer", "test", "test")
 
 
+# Query on the Oracle instance name.
+instanceName <- dbGetQuery(jdbcConnection, "SELECT * FROM events limit 1;")
+print(c("names:",instanceName))
+
+# Get all match id
+matchIds <- dbGetQuery(jdbcConnection, "SELECT distinct \"matchId\" FROM events order by \"matchId\" desc;")
+print(c("Match ids count:" ,dim(matchIds)))
+
 
 
 
