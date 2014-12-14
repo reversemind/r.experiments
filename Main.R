@@ -1,9 +1,48 @@
+# Part 2
+source("complete.R")
+complete("specdata", 1)
+
+
+# Part 1
+source("pollutantmean.R")
+pollutantmean("specdata", "sulfate", 1:10)
+pollutantmean("specdata", "nitrate", 70:72)
+pollutantmean("specdata", "nitrate", 23)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 # ----------------
 DIRECTORY <- "specdata"
 SEPARATOR <- "/"
 
 # ---------------
+# get ordered list of file names
 fileList <-list.files(DIRECTORY, full.names = TRUE)
+fileIndex<-vector()
+for(i in 1:length(fileList)){
+  fileIndex[i]<-fileList[i]
+}
+
 
 fileIndex<-as.vector(1:length(fileList))
 fileIndex<-1:length(fileList)
@@ -135,7 +174,64 @@ p$sec
 i<-1:322
 
 
+# Part #2 - create function
+#---------------------
+source("pollutantmean.R")
+
+csvFileName=paste(DIRECTORY,SEPARATOR,"001.csv", sep = "")
+
+ff<-vectorOfIndexedFileNames(DIRECTORY)
+
+
+# vectorByFileNameByColumnName<-function(csvFileName, columnName) {
+gg<-vectorByFileNameByColumnName(ff[1],"sulfate")
+
+
+
+h<-"VALUE"
+
+if(h == toupper("value")){
+  print(1)
+}else{
+  print(2)
+}
+
+q<-all.equal(h,toupper("value"))
+
+
+V<-c(1,3,5)
+Vg<-vector()
+for(i in 1:length(V)){
+  print(V[i])
+  g<-vectorByFileNameByColumnName(ff[V[i]],"sulfate")
+  
+  if(length(g)){
+    Vg<-c(Vg,g)  
+  }
+  
+}
+
+
+
+gg1<-vectorByFileNameByColumnName(ff[1],"sulfate")
+gg2<-vectorByFileNameByColumnName(ff[3],"sulfate")
+gg3<-vectorByFileNameByColumnName(ff[5],"sulfate")
+mean(gg, , na.rm=TRUE)
+
+gAll<-vector()
+gAll<-c(gAll,gg1)
+gAll<-c(gAll,gg2)
+gAll<-c(gAll,gg3)
+
+(length(gg1)+length(gg2)+length(gg3))
+length(gAll)
+
+
+
+
 
 
 source("pollutantmean.R")
-csvFileName=paste(DIRECTORY,SEPARATOR,"001.csv", sep = "")
+pollutantmean("specdata", "sulfate", 1:10)
+pollutantmean("specdata", "nitrate", 70:72)
+pollutantmean("specdata", "nitrate", 23)
