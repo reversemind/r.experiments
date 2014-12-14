@@ -1,15 +1,54 @@
 # Part 3
-
 source("corr.R")
 source("complete.R")
 
 
-# Part 2
-source("complete.R")
-complete("specdata", 1)
-complete("specdata", c(2, 4, 8, 10, 12))
-complete("specdata", 30:25)
-complete("specdata", 3)
+cr <- corr("specdata", 150)
+head(cr)
+## [1] -0.01896 -0.14051 -0.04390 -0.06816 -0.12351 -0.07589
+
+summary(cr)
+##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+## -0.2110 -0.0500  0.0946  0.1250  0.2680  0.7630
+
+
+
+
+cr <- corr("specdata", 400)
+head(cr)
+## [1] -0.01896 -0.04390 -0.06816 -0.07589  0.76313 -0.15783
+
+
+summary(cr)
+##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+## -0.1760 -0.0311  0.1000  0.1400  0.2680  0.7630
+
+
+
+
+cr <- corr("specdata", 5000)
+summary(cr)
+##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+## 
+length(cr)
+## [1] 0
+
+
+
+
+cr <- corr("specdata")
+summary(cr)
+##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+## -1.0000 -0.0528  0.1070  0.1370  0.2780  1.0000
+length(cr)
+## [1] 323
+
+
+
+
+
+
+
 
 dtt<-complete("specdata")
 
@@ -21,48 +60,50 @@ names(dtt)
 directory<-"specdata"
 
 threshold<-150L
-sulfateData<-vector()
-nitrateData<-vector()
-
 # fileNames according to index
 fileNameIndex<-vectorOfIndexedFileNames(directory)
 
-
 CR<-vector()
-
-# select above threshold
+# Calculate for each monitor correlation above threshold value
 for(i in 1:length(dtt[[1]])){
   if(dtt[[2]][i] > threshold){
-    
-    #nPartSulfate<-vectorByFileNameByColumnName(fileNameIndex[i],"sulfate")  
-    #nPartNitrate<-vectorByFileNameByColumnName(fileNameIndex[i],"nitrate")  
-    
     nPart<-vectorSulfateNitrateByFileNameByColumnNameOnlyNOBs(fileNameIndex[i])  
-    
-    # d <- d[!is.na(d)]
-    #sulfateData<-c(sulfateData,nPartSulfate[!is.na(nPartSulfate)])
-    #nitrateData<-c(nitrateData,nPartNitrate[!is.na(nPartNitrate)])
-    
-    sulfateData<-c(sulfateData,nPart$sulfate)
-    nitrateData<-c(nitrateData,nPart$nitrate)
-    CR[i]<-cor(nPart$sulfate,nPart$nitrate)
+    CR<-c(CR,cor(nPart$sulfate,nPart$nitrate))
   }
 }
 
-
 head(CR)
-
-class(sulfateData)
-typeof(sulfateData)
+summary(CR)
 
 
-length(sulfateData)
-length(nitrateData)
-cr<-cor(sulfateData,nitrateData)
-head(cr)
 
-cr<-cor(sulfateData, nitrateData)
 
+CR_RESULT<-vector()
+
+CR_RESULT<-CR[2:length(CR)]
+for(i in 2:length(CR)){
+  CR_RESULT[i-1]<-CR[i]
+}
+
+
+
+
+head(CR_RESULT)
+
+
+
+
+
+nPart9<-vectorSulfateNitrateByFileNameByColumnNameOnlyNOBs(fileNameIndex[10])  
+View(nPart9)
+
+
+# Part 2
+source("complete.R")
+complete("specdata", 1)
+complete("specdata", c(2, 4, 8, 10, 12))
+complete("specdata", 30:25)
+complete("specdata", 3)
 
 
 

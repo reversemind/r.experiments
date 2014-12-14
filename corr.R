@@ -9,63 +9,23 @@ corr <- function(directory, threshold = 0) {
   
   ## Return a numeric vector of correlations
   
-  dt<-complete(directory)
+  source("complete.R")
+  dtt<-complete(directory)
   
-}
-
-##
-#
-#
-vectorByFileNameByColumnNameOnlyNOBs<-function(csvFileName, columnName) {
-  temp<-read.csv(csvFileName)
+  # fileNames according to index
+  fileNameIndex<-vectorOfIndexedFileNames(directory)
   
-  result<-vector()
-  if(tolower(columnName) == "sulfate"){
-    for(i in 1:length(temp$sulfate)){
-      counter<-0L
-      if(!is.na(temp[[1]][i])){
-        counter<-counter+1
-      }  
-      if(!is.na(temp[[2]][i])){
-        counter<-counter+1
-      }  
-      if(!is.na(temp[[3]][i])){
-        counter<-counter+1
-      }  
-      if(!is.na(temp[[4]][i])){
-        counter<-counter+1
-      }  
-      if(counter == 4L){
-        result<-c(result,temp$sulfate[i])
-      }  
+  CR<-vector()
+  # Calculate for each monitor correlation above threshold value
+  for(i in 1:length(dtt[[1]])){
+    if(dtt[[2]][i] > threshold){
+      nPart<-vectorSulfateNitrateByFileNameByColumnNameOnlyNOBs(fileNameIndex[i])  
+      CR<-c(CR,cor(nPart$sulfate,nPart$nitrate))
     }
   }
   
-  if(tolower(columnName) == "nitrate"){
-    for(i in 1:length(temp$nitrate)){
-      counter<-0L
-      if(!is.na(temp[[1]][i])){
-        counter<-counter+1
-      }  
-      if(!is.na(temp[[2]][i])){
-        counter<-counter+1
-      }  
-      if(!is.na(temp[[3]][i])){
-        counter<-counter+1
-      }  
-      if(!is.na(temp[[4]][i])){
-        counter<-counter+1
-      }  
-      if(counter == 4L){
-        result<-c(result,temp$nitrate[i])
-      }  
-    }
-  }
-  
-  result
+  CR
 }
-
-
 
 
 ##
@@ -77,7 +37,7 @@ vectorSulfateNitrateByFileNameByColumnNameOnlyNOBs<-function(csvFileName) {
   sulfate<-vector()
   nitrate<-vector()
   
-  for(i in 1:length(temp$sulfate)){
+  for(i in 1:length(temp$Date)){
     counter<-0L
     if(!is.na(temp[[1]][i])){
       counter<-counter+1

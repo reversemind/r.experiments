@@ -68,7 +68,7 @@ dataFrameByFileName<-function(csvFileName) {
 #
 vectorOfIndexedFileNames<-function(Directory = ".") {
   # Get ordered list of file names
-  fileList <-list.files(DIRECTORY, full.names = TRUE)
+  fileList <-list.files(Directory, full.names = TRUE)
   fileIndex<-vector()
   for(i in 1:length(fileList)){
     fileIndex[i]<-fileList[i]
