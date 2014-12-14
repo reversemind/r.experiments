@@ -1,4 +1,7 @@
+# Part 3
 
+source("corr.R")
+source("complete.R")
 
 
 # Part 2
@@ -7,6 +10,62 @@ complete("specdata", 1)
 complete("specdata", c(2, 4, 8, 10, 12))
 complete("specdata", 30:25)
 complete("specdata", 3)
+
+dtt<-complete("specdata")
+
+class(dtt)
+names(dtt)
+
+
+
+directory<-"specdata"
+
+threshold<-150L
+sulfateData<-vector()
+nitrateData<-vector()
+
+# fileNames according to index
+fileNameIndex<-vectorOfIndexedFileNames(directory)
+
+
+CR<-vector()
+
+# select above threshold
+for(i in 1:length(dtt[[1]])){
+  if(dtt[[2]][i] > threshold){
+    
+    #nPartSulfate<-vectorByFileNameByColumnName(fileNameIndex[i],"sulfate")  
+    #nPartNitrate<-vectorByFileNameByColumnName(fileNameIndex[i],"nitrate")  
+    
+    nPart<-vectorSulfateNitrateByFileNameByColumnNameOnlyNOBs(fileNameIndex[i])  
+    
+    # d <- d[!is.na(d)]
+    #sulfateData<-c(sulfateData,nPartSulfate[!is.na(nPartSulfate)])
+    #nitrateData<-c(nitrateData,nPartNitrate[!is.na(nPartNitrate)])
+    
+    sulfateData<-c(sulfateData,nPart$sulfate)
+    nitrateData<-c(nitrateData,nPart$nitrate)
+    CR[i]<-cor(nPart$sulfate,nPart$nitrate)
+  }
+}
+
+
+head(CR)
+
+class(sulfateData)
+typeof(sulfateData)
+
+
+length(sulfateData)
+length(nitrateData)
+cr<-cor(sulfateData,nitrateData)
+head(cr)
+
+cr<-cor(sulfateData, nitrateData)
+
+
+
+
 
 
 
