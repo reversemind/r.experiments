@@ -23,11 +23,16 @@ byState <- outcome[c(outcome$State == "TX"),]
 ncol(byState)
 nrow(byState)
 
-indexOutcome <- 11
+indexOutcome <- 17
 orderedByState <- byState[order(byState[,indexOutcome], na.last = TRUE, decreasing=FALSE),]
 
 # Hospital name with 
 orderedByState$Hospital.Name[1]
+
+
+# --- 
+ff <- na.omit(orderedByState[is.na(orderedByState[,indexOutcome])])
+
 
 
 
