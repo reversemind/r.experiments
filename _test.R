@@ -30,8 +30,22 @@ orderedByState <- byState[order(byState[,indexOutcome], na.last = TRUE, decreasi
 orderedByState$Hospital.Name[1]
 
 
+
+
+
+
+# Recode cell values for particular column by NA value
 # --- 
-ff <- na.omit(orderedByState[is.na(orderedByState[,indexOutcome])])
+ff <- orderedByState[!is.na(orderedByState[,indexOutcome]),]
+
+# replace value "Not Available" -- by NA
+orderedByState$Hospital.30.Day.Death..Mortality..Rates.from.Heart.Failure[orderedByState$Hospital.30.Day.Death..Mortality..Rates.from.Heart.Failure == "Not Available"] <- NA
+
+library(car)
+orderedByState[,11]<-recode(orderedByState[,11],"'Not Available'=NA")
+
+
+
 
 
 
