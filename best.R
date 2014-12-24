@@ -43,6 +43,9 @@ best <- function(state, outcome){
     stop("invalid state")  
   }
   
+  byState[byState == "Not Available"] <- NA
+  byState[,indexOutcome] <- as.numeric(byState[,indexOutcome])
+  
   # sort matrix by column
   orderedByState <- byState[order(byState[,indexOutcome], na.last = TRUE, decreasing=FALSE),]
   

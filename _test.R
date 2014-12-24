@@ -49,12 +49,12 @@ outcome[,17] <- as.numeric(outcome[,17])
 outcome[,23] <- as.numeric(outcome[,23])
 
 
-byState <- outcome[c(outcome$State == "MD"),]
+byState <- outcome[c(outcome$State == "TX"),]
 ncol(byState)
 nrow(byState)
 
 
-indexOutcome <- 17
+indexOutcome <- 11
 orderedByState <- byState[order(byState[,indexOutcome], na.last = TRUE, decreasing=FALSE),]
 
 # Hospital name with 
