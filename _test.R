@@ -1,11 +1,30 @@
 
 # load data
 
-outcome <- read.csv("outcome-of-care-measures.csv", colClass="character")
-head(outcome)
 
-str(outcome)
+outcome <- read.csv("outcome-of-care-measures.csv", colClass="character")
 names(outcome)
+
+
+#
+# Trying to set a particular class for column during the reading a file
+# headset <- read.csv("outcome-of-care-measures.csv", header = TRUE, nrows = 10)
+# classes <- sapply(headset, class)
+
+# classes[names(classes)] <- "character"
+
+# classes[names(classes) %in% c("Hospital.30.Day.Death..Mortality..Rates.from.Heart.Attack")] <- "number"
+# classes[names(classes) %in% c("Hospital.30.Day.Death..Mortality..Rates.from.Heart.Failure")] <- "number"
+# classes[names(classes) %in% c("Hospital.30.Day.Death..Mortality..Rates.from.Pneumonia")] <- "number"
+
+# dataset <- read.csv("outcome-of-care-measures.csv", header = TRUE, colClasses = classes)
+
+
+#
+# --- 
+
+head(outcome)
+str(outcome)
 
 # number of columns
 ncol(outcome)
@@ -18,13 +37,22 @@ ncol(outcome)
 # less restricted
 # byState <- outcome[grep("TX", outcome$State, ignore.case = T),]
 
-# 
-byState <- outcome[c(outcome$State == "TX"),]
+# replace all values "Not Available" on NA
+outcome[outcome == "Not Available"] <- NA
+
+byState <- outcome[c(outcome$State == "MD"),]
 ncol(byState)
 nrow(byState)
 
 indexOutcome <- 17
-orderedByState <- byState[order(byState[,indexOutcome], na.last = TRUE, decreasing=FALSE),]
+#orderedByState <- byState[order(byState[,indexOutcome], na.last = TRUE, decreasing=FALSE),]
+orderedByState <- byState[ order(byState[,indexOutcome]), ]
+
+orderedByState <- byState[with(byState, order(-indexOutcome, byState[,indexOutcome])), ]
+
+orderedByState <- apply(byState, 2, sort)
+
+
 
 # Hospital name with 
 orderedByState$Hospital.Name[1]
@@ -32,14 +60,15 @@ orderedByState$Hospital.Name[1]
 
 
 
-
-
-# Recode cell values for particular column by NA value
+# Recode values for the particular column by NA value
 # --- 
 ff <- orderedByState[!is.na(orderedByState[,indexOutcome]),]
 
 # replace value "Not Available" -- by NA
 orderedByState$Hospital.30.Day.Death..Mortality..Rates.from.Heart.Failure[orderedByState$Hospital.30.Day.Death..Mortality..Rates.from.Heart.Failure == "Not Available"] <- NA
+
+
+orderedByState[orderedByState == "Not Available"] <- NA
 
 library(car)
 orderedByState[,11]<-recode(orderedByState[,11],"'Not Available'=NA")
