@@ -1,9 +1,51 @@
+# Ranking hospitals in all states
+
+source("rankall.R")
+head(rankall("heart attack", 20), 10)
+tail(rankall("pneumonia", "worst"), 3)
+tail(rankall("heart failure"), 10)
+
+
 
 # load data
-
-
 outcome <- read.csv("outcome-of-care-measures.csv", colClass="character")
 names(outcome)
+
+
+
+
+# Find a set of states - ordered
+states <- outcome$State
+states <- states[!duplicated(states)]
+states <- states[order(states)]
+
+states
+length(states)
+
+
+source("rankhospital.R")
+
+hospital <- vector()
+state <- vector()
+
+for(i in 1:length(states)){
+  
+  hospitalName <- rankhospital(states[i],"heart attack")
+  hospital <- c(hospital, hospitalName)
+  state <- c(state, states[i])
+}
+
+
+result <- data.frame(hospital,state)
+
+head(result, 10)
+
+tail(result, 3)
+
+
+
+
+
 
 
 #
@@ -164,4 +206,8 @@ rankhospital("MD","heart attack","worst")
 rankhospital("MN","heart attack",5000)
 
 rankhospital("MO","heart attack", 10)
+
+
+
+
 
