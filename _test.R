@@ -120,6 +120,19 @@ df[order(df[,1],df[,2], na.last = TRUE,decreasing=TRUE),]
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+# #1
 # Find correct index in matrix for particular outcome
 #
 # String for desease
