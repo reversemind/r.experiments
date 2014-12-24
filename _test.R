@@ -24,6 +24,9 @@ names(outcome)
 # --- 
 
 head(outcome)
+# Detect class names
+classes <- sapply(outcome, class)
+
 str(outcome)
 
 # number of columns
@@ -40,22 +43,29 @@ ncol(outcome)
 # replace all values "Not Available" on NA
 outcome[outcome == "Not Available"] <- NA
 
+# Convert specified columns from character into numeric class
+outcome[,11] <- as.numeric(outcome[,11])
+outcome[,17] <- as.numeric(outcome[,17])
+outcome[,23] <- as.numeric(outcome[,23])
+
+
 byState <- outcome[c(outcome$State == "MD"),]
 ncol(byState)
 nrow(byState)
 
+
 indexOutcome <- 17
-#orderedByState <- byState[order(byState[,indexOutcome], na.last = TRUE, decreasing=FALSE),]
-orderedByState <- byState[ order(byState[,indexOutcome]), ]
-
-orderedByState <- byState[with(byState, order(-indexOutcome, byState[,indexOutcome])), ]
-
-orderedByState <- apply(byState, 2, sort)
-
-
+orderedByState <- byState[order(byState[,indexOutcome], na.last = TRUE, decreasing=FALSE),]
 
 # Hospital name with 
 orderedByState$Hospital.Name[1]
+
+
+
+
+
+
+
 
 
 
