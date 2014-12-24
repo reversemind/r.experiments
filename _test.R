@@ -152,3 +152,16 @@ best("MD","pheumonia")
 best("BB","heart attack")
 best("NY","hert attack")
 
+
+
+# #2
+# Ranking hospitals by outcome in a state
+#
+
+source("rankhospital.R")
+rankhospital("TX","heart failure",4)
+rankhospital("MD","heart attack","worst")
+rankhospital("MN","heart attack",5000)
+
+rankhospital("MO","heart attack", 10)
+
